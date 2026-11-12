@@ -1,0 +1,132 @@
+            {/* Document Upload */}
+            <div className="space-y-2">
+              <Label className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px]">
+                Document Upload <span className="text-[#9ca3af]">(Optional)</span>
+              </Label>
+              
+              {submissionDocuments.length === 0 ? (
+                <div
+                  className={`border-2 border-dashed rounded-[10px] p-6 text-center transition-colors ${
+                    dragActive ? 'border-[#1a4d8f] bg-[#ecf4ff]' : 'border-[#e2e8f2] bg-white hover:border-[#1a4d8f]'
+                  }`}
+                  onDragEnter={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <input
+                    type="file"
+                    id="submission-documents"
+                    multiple
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  />
+                  <label htmlFor="submission-documents" className="cursor-pointer block">
+                    <Upload className="w-8 h-8 text-[#1a4d8f] mx-auto mb-2" />
+                    <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[14px] mb-1">
+                      Click to upload or drag and drop
+                    </p>
+                    <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#99a1af] text-[12px]">
+                      PDF, DOC, DOCX, JPG, PNG (Max 10MB)
+                    </p>
+                  </label>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {submissionDocuments.map((file, index) => {
+                    const fileId = `${file.name}-${index}`;
+                    const progress = uploadProgress[fileId];
+                    const isUploading = progress !== undefined && progress < 100;
+                    const isUploaded = progress === 100;
+                    const preview = filePreviews[fileId];
+
+                    return (
+                      <div key={index} className="bg-white border-[1.6px] border-[#e2e8f2] rounded-[10px] p-[17.6px]">
+                        {isUploading && (
+                          <div className="mb-4">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[13px]">
+                                Uploading...
+                              </p>
+                              <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[12px]">
+                                {progress}%
+                              </p>
+                            </div>
+                            <Progress value={progress} className="h-2" />
+                          </div>
+                        )}
+
+                        <div className="flex items-start gap-[16px]">
+                          {/* Preview Thumbnail */}
+                          <div className="shrink-0">
+                            {preview ? (
+                              <img 
+                                src={preview} 
+                                alt={file.name}
+                                className="w-[80px] h-[80px] object-cover rounded-[8px] border-[0.8px] border-[#e2e8f2]"
+                              />
+                            ) : (
+                              <div className="w-[80px] h-[80px] bg-[#f6f8fc] rounded-[8px] border-[0.8px] border-[#e2e8f2] flex items-center justify-center">
+                                <FileText className="w-8 h-8 text-[#1a4d8f]"/>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* File Info */}
+                          <div className="flex-1 min-w-0 flex flex-col gap-[4px]">
+                            <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[13px] leading-[19.5px] truncate">
+                              {file.name}
+                            </p>
+                            <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#99a1af] text-[11px] leading-[16.5px]">
+                              {(file.size / 1024).toFixed(2)} KB
+                            </p>
+                            {isUploaded && (
+                              <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#25c196] text-[12px] leading-[18px]">
+                                ✓ Upload complete
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Remove Button */}
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(index)}
+                            className="shrink-0 rounded-[4px] p-[4px] hover:bg-[#f6f8fc] transition-colors"
+                            title="Remove file"
+                          >
+                            <svg className="w-[20px] h-[20px]" fill="none" viewBox="0 0 20 20">
+                              <path d="M4.16667 5.83333V15.8333C4.16667 16.2754 4.34226 16.6993 4.65482 17.0118C4.96738 17.3244 5.39131 17.5 5.83333 17.5H14.1667C14.6087 17.5 15.0326 17.3244 15.3452 17.0118C15.6577 16.6993 15.8333 16.2754 15.8333 15.8333V5.83333" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M2.5 5.83333H17.5" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d={svgPaths.pa163480} stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M8.33333 9.16667V14.1667" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M11.6667 9.16667V14.1667" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* Add More Button */}
+                  <div
+                    className="border-2 border-dashed border-[#e2e8f2] rounded-[10px] p-4 text-center hover:border-[#1a4d8f] transition-colors cursor-pointer"
+                  >
+                    <input
+                      type="file"
+                      id="submission-documents-add"
+                      multiple
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    />
+                    <label htmlFor="submission-documents-add" className="cursor-pointer block">
+                      <Upload className="w-6 h-6 text-[#1a4d8f] mx-auto mb-1" />
+                      <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px]">
+                        Add more documents
+                      </p>
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>

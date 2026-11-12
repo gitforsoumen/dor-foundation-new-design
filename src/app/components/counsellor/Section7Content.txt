@@ -1,0 +1,701 @@
+          {/* Section 7: Overall Feedback */}
+          <Card className="bg-white p-4 sm:p-6 rounded-[10px] border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)]">
+            <h2
+              className="font-['Fraunces:Bold',sans-serif] font-bold text-[#1a4d8f] text-[22px] mb-6"
+              style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}
+            >
+              Section 7 – Overall Feedback
+            </h2>
+
+            {/* Overall Recommendation */}
+            <div className="space-y-6 mb-8">
+              <div>
+                <label className="block font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px] mb-2">
+                  Should the student get the scholarship? Please provide your recommendation and reasoning.
+                </label>
+                <textarea
+                  value={scholarshipRecommendation}
+                  onChange={(e) => setScholarshipRecommendation(e.target.value)}
+                  rows={5}
+                  className="w-full px-4 py-3 border border-[#e2e8f2] rounded-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[14px] text-[#4d4b48] focus:outline-none focus:ring-2 focus:ring-[#1a4d8f] focus:border-transparent resize-none"
+                  placeholder="Provide your detailed recommendation about whether this student should receive the scholarship and explain your reasoning"
+                />
+              </div>
+            </div>
+
+            {/* Interviewer Details */}
+            <div className="border-t border-[#e2e8f2] pt-6 mb-8">
+              <h3 className="font-['Wix_Madefor_Text:Bold',sans-serif] text-[#a85613] text-[18px] mb-6 font-bold">
+                Interviewer Information
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="block font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px] mb-2">
+                    Interviewer Name
+                  </label>
+                  <input
+                    type="text"
+                    value={interviewerName}
+                    onChange={(e) => setInterviewerName(e.target.value)}
+                    className="w-full h-[44px] px-4 border border-[#e2e8f2] rounded-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[14px] text-[#4d4b48] focus:outline-none focus:ring-2 focus:ring-[#1a4d8f] focus:border-transparent"
+                    placeholder="Enter interviewer name"
+                  />
+                </div>
+                <div>
+                  <label className="block font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px] mb-2">
+                    Interviewer Signature
+                  </label>
+                  <input
+                    type="text"
+                    value={interviewerSignature}
+                    onChange={(e) => setInterviewerSignature(e.target.value)}
+                    className="w-full h-[44px] px-4 border border-[#e2e8f2] rounded-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[14px] text-[#4d4b48] focus:outline-none focus:ring-2 focus:ring-[#1a4d8f] focus:border-transparent"
+                    placeholder="Enter signature"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px] mb-2">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    value={feedbackLocation}
+                    onChange={(e) => setFeedbackLocation(e.target.value)}
+                    className="w-full h-[44px] px-4 border border-[#e2e8f2] rounded-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[14px] text-[#4d4b48] focus:outline-none focus:ring-2 focus:ring-[#1a4d8f] focus:border-transparent"
+                    placeholder="Enter location"
+                  />
+                </div>
+                <div>
+                  <label className="block font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#4d4b48] text-[14px] mb-2">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    value={feedbackDate}
+                    onChange={(e) => setFeedbackDate(e.target.value)}
+                    className="w-full h-[44px] px-4 border border-[#e2e8f2] rounded-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[14px] text-[#4d4b48] focus:outline-none focus:ring-2 focus:ring-[#1a4d8f] focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Document Details Checklist */}
+            <div className="border-t border-[#e2e8f2] pt-6">
+              <h3 className="font-['Wix_Madefor_Text:Bold',sans-serif] text-[#a85613] text-[18px] mb-6 font-bold">
+                Document Details Checklist
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* School Application Form */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    School Application Form
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_schoolApplication"
+                        checked={documents.schoolApplication === "yes"}
+                        onChange={() => setDocuments({ ...documents, schoolApplication: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_schoolApplication"
+                        checked={documents.schoolApplication === "no"}
+                        onChange={() => setDocuments({ ...documents, schoolApplication: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* GPS Family Photo */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    GPS Family Photo
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_gpsPhoto"
+                        checked={documents.gpsPhoto === "yes"}
+                        onChange={() => setDocuments({ ...documents, gpsPhoto: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_gpsPhoto"
+                        checked={documents.gpsPhoto === "no"}
+                        onChange={() => setDocuments({ ...documents, gpsPhoto: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Home Video */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Home Video (2 mins)
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_homeVideo"
+                        checked={documents.homeVideo === "yes"}
+                        onChange={() => setDocuments({ ...documents, homeVideo: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_homeVideo"
+                        checked={documents.homeVideo === "no"}
+                        onChange={() => setDocuments({ ...documents, homeVideo: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Shop Video */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Shop Video
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_shopVideo"
+                        checked={documents.shopVideo === "yes"}
+                        onChange={() => setDocuments({ ...documents, shopVideo: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_shopVideo"
+                        checked={documents.shopVideo === "no"}
+                        onChange={() => setDocuments({ ...documents, shopVideo: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Aadhaar Card */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Aadhaar Card
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_aadhaar"
+                        checked={documents.aadhaar === "yes"}
+                        onChange={() => setDocuments({ ...documents, aadhaar: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_aadhaar"
+                        checked={documents.aadhaar === "no"}
+                        onChange={() => setDocuments({ ...documents, aadhaar: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Ration Card */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Ration Card
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_rationCard"
+                        checked={documents.rationCard === "yes"}
+                        onChange={() => setDocuments({ ...documents, rationCard: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_rationCard"
+                        checked={documents.rationCard === "no"}
+                        onChange={() => setDocuments({ ...documents, rationCard: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* 9th Marksheet */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    9th Marksheet
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet9"
+                        checked={documents.marksheet9 === "yes"}
+                        onChange={() => setDocuments({ ...documents, marksheet9: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet9"
+                        checked={documents.marksheet9 === "no"}
+                        onChange={() => setDocuments({ ...documents, marksheet9: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* 10th Marksheet */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    10th Marksheet
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet10"
+                        checked={documents.marksheet10 === "yes"}
+                        onChange={() => setDocuments({ ...documents, marksheet10: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet10"
+                        checked={documents.marksheet10 === "no"}
+                        onChange={() => setDocuments({ ...documents, marksheet10: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* 11th Marksheet */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    11th Marksheet
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet11"
+                        checked={documents.marksheet11 === "yes"}
+                        onChange={() => setDocuments({ ...documents, marksheet11: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet11"
+                        checked={documents.marksheet11 === "no"}
+                        onChange={() => setDocuments({ ...documents, marksheet11: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* 12th Marksheet */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    12th Marksheet
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet12"
+                        checked={documents.marksheet12 === "yes"}
+                        onChange={() => setDocuments({ ...documents, marksheet12: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_marksheet12"
+                        checked={documents.marksheet12 === "no"}
+                        onChange={() => setDocuments({ ...documents, marksheet12: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Graduation Marksheet */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Graduation Marksheet
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_graduationMarksheet"
+                        checked={documents.graduationMarksheet === "yes"}
+                        onChange={() => setDocuments({ ...documents, graduationMarksheet: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_graduationMarksheet"
+                        checked={documents.graduationMarksheet === "no"}
+                        onChange={() => setDocuments({ ...documents, graduationMarksheet: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Income Certificate */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Income Certificate
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_incomeCertificate"
+                        checked={documents.incomeCertificate === "yes"}
+                        onChange={() => setDocuments({ ...documents, incomeCertificate: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_incomeCertificate"
+                        checked={documents.incomeCertificate === "no"}
+                        onChange={() => setDocuments({ ...documents, incomeCertificate: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Caste Certificate */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Caste Certificate
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_casteCertificate"
+                        checked={documents.casteCertificate === "yes"}
+                        onChange={() => setDocuments({ ...documents, casteCertificate: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_casteCertificate"
+                        checked={documents.casteCertificate === "no"}
+                        onChange={() => setDocuments({ ...documents, casteCertificate: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* EWS Certificate */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    EWS Certificate
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_ewsCertificate"
+                        checked={documents.ewsCertificate === "yes"}
+                        onChange={() => setDocuments({ ...documents, ewsCertificate: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_ewsCertificate"
+                        checked={documents.ewsCertificate === "no"}
+                        onChange={() => setDocuments({ ...documents, ewsCertificate: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Domicile */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Domicile
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_domicile"
+                        checked={documents.domicile === "yes"}
+                        onChange={() => setDocuments({ ...documents, domicile: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_domicile"
+                        checked={documents.domicile === "no"}
+                        onChange={() => setDocuments({ ...documents, domicile: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Bank Statement - Father */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Bank Statement - Father
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementFather"
+                        checked={documents.bankStatementFather === "yes"}
+                        onChange={() => setDocuments({ ...documents, bankStatementFather: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementFather"
+                        checked={documents.bankStatementFather === "no"}
+                        onChange={() => setDocuments({ ...documents, bankStatementFather: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Bank Statement - Mother */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Bank Statement - Mother
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementMother"
+                        checked={documents.bankStatementMother === "yes"}
+                        onChange={() => setDocuments({ ...documents, bankStatementMother: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementMother"
+                        checked={documents.bankStatementMother === "no"}
+                        onChange={() => setDocuments({ ...documents, bankStatementMother: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Bank Statement - Sibling 1 */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Bank Statement - Sibling 1
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling1"
+                        checked={documents.bankStatementSibling1 === "yes"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling1: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling1"
+                        checked={documents.bankStatementSibling1 === "no"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling1: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Bank Statement - Sibling 2 */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Bank Statement - Sibling 2
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling2"
+                        checked={documents.bankStatementSibling2 === "yes"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling2: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling2"
+                        checked={documents.bankStatementSibling2 === "no"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling2: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Bank Statement - Sibling 3 */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    Bank Statement - Sibling 3
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling3"
+                        checked={documents.bankStatementSibling3 === "yes"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling3: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_bankStatementSibling3"
+                        checked={documents.bankStatementSibling3 === "no"}
+                        onChange={() => setDocuments({ ...documents, bankStatementSibling3: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* English Essay */}
+                <div className="flex items-center justify-between p-3 bg-[#f6f8fc] rounded-[10px]">
+                  <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[14px]">
+                    English Essay
+                  </span>
+                  <div className="flex gap-3">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_englishEssay"
+                        checked={documents.englishEssay === "yes"}
+                        onChange={() => setDocuments({ ...documents, englishEssay: "yes" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">Yes</span>
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="doc_englishEssay"
+                        checked={documents.englishEssay === "no"}
+                        onChange={() => setDocuments({ ...documents, englishEssay: "no" })}
+                        className="w-3.5 h-3.5 text-[#1a4d8f] focus:ring-[#1a4d8f]"
+                      />
+                      <span className="text-[12px] font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48]">No</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+          
