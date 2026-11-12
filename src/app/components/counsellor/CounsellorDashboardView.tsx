@@ -1,4 +1,4 @@
-import { Users, ClipboardList, CheckCircle2, Calendar, UserCheck, FileText, Mail, Phone, Download } from "lucide-react";
+import { Users, ClipboardList, CheckCircle2, Calendar, UserCheck, FileText, Mail, Phone, Download, TrendingUp, Clock, MessageSquare, Home, Eye, Play, ArrowRight, BookOpen, HelpCircle, ListChecks } from "lucide-react";
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -46,355 +46,241 @@ export default function CounsellorDashboardView({ onNavigateToStudents, onNaviga
     setSelectedStudent(null);
   };
 
+  type TaskType = "Counselling" | "Home Visit" | "Document Verification";
+
+  // Scheduled tasks (same data as before, now in one list)
+  const tasks: {
+    studentId: string;
+    appId: string;
+    name: string;
+    type: TaskType;
+    status: string;
+    month: string;
+    day: string;
+    weekday: string;
+    time: string;
+    fullDate: string;
+    email: string;
+    phone: string;
+  }[] = [
+    { studentId: "STU-2024-001", appId: "APP-2024-001", name: "Priya Sharma", type: "Counselling", status: "Pending", month: "NOV", day: "12", weekday: "Wed", time: "3:00 PM", fullDate: "Wed, Nov 12, 2025", email: "priya.sharma@email.com", phone: "+91 9876543210" },
+    { studentId: "STU-2024-002", appId: "APP-2024-002", name: "Rahul Kumar", type: "Home Visit", status: "Scheduled", month: "NOV", day: "13", weekday: "Thu", time: "10:00 AM", fullDate: "Thu, Nov 13, 2025", email: "rahul.kumar@email.com", phone: "+91 9876543211" },
+    { studentId: "STU-2024-004", appId: "APP-2024-004", name: "Amit Singh", type: "Document Verification", status: "Scheduled", month: "NOV", day: "15", weekday: "Sat", time: "2:30 PM", fullDate: "Sat, Nov 15, 2025", email: "amit.singh@email.com", phone: "+91 9876543213" },
+  ];
+
+  const stats = { total: 24, pending: 8, completed: 16 };
+  const completionRate = Math.round((stats.completed / stats.total) * 100);
+
+  const [taskFilter, setTaskFilter] = useState<"All" | TaskType>("All");
+  const filteredTasks = taskFilter === "All" ? tasks : tasks.filter((t) => t.type === taskFilter);
+  const nextTask = tasks[0];
+
+  const typeStyle: Record<TaskType, { className: string; icon: typeof Users }> = {
+    "Counselling": { className: "bg-[#14b8a6]/15 text-[#5eead4]", icon: MessageSquare },
+    "Home Visit": { className: "bg-[#f59e0b]/15 text-[#fbbf24]", icon: Home },
+    "Document Verification": { className: "bg-[#0ea5e9]/15 text-[#7dd3fc]", icon: FileText },
+  };
+
+  const initials = (name: string) => name.split(" ").map((p) => p.charAt(0)).slice(0, 2).join("").toUpperCase();
+
+  const resources = [
+    { icon: BookOpen, title: "Application Guide", description: "Step-by-step instructions" },
+    { icon: HelpCircle, title: "FAQs", description: "Frequently asked questions" },
+    { icon: ListChecks, title: "Document Checklist", description: "List of required documents" },
+    { icon: Phone, title: "Contact Support", description: "Get help from our team" },
+  ];
+
+  const kpis = [
+    { label: "Total Assigned Students", value: stats.total, note: "Across all task types", noteClass: "text-[#5eead4]", iconBg: "bg-[#14b8a6]", icon: Users },
+    { label: "Pending Counselling", value: stats.pending, note: "Needs action", noteClass: "text-[#fbbf24]", iconBg: "bg-[#f59e0b]", icon: ClipboardList },
+    { label: "Completed Counselling", value: stats.completed, note: "Great progress", noteClass: "text-[#3ddc9f]", iconBg: "bg-[#22c58b]", icon: CheckCircle2 },
+  ];
+
+  const card = "bg-[#131a30] border border-[#1f2742] rounded-[20px] shadow-[0_12px_30px_rgba(0,0,0,0.25)]";
+  const gradientBtn = "inline-flex items-center gap-2 rounded-[10px] text-white font-semibold bg-gradient-to-r from-[#14b8a6] to-[#0ea5e9] hover:brightness-110 transition whitespace-nowrap";
+
   return (
-    <div className="min-h-full bg-[#f6f8fc]">
-      <div className="max-w-[1400px] mx-auto px-4 py-8 md:px-8 md:py-12">
+    <div className="min-h-full">
+      <div className="max-w-[1400px] mx-auto px-4 py-6 md:px-9 md:pt-5 md:pb-8 flex flex-col gap-5">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-['Fraunces:Bold',sans-serif] font-bold text-[#a85613] text-[24px] sm:text-[30px] md:text-[36px] mb-2" style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}>
-            Welcome, Amit!
-          </h1>
-          <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[16px]">
-            Manage and track your assigned students' counselling sessions
-          </p>
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div>
+            <h1 className="font-bold text-white text-[26px] sm:text-[30px] md:text-[32px] leading-[1.2] mb-1">Welcome, Amit!</h1>
+            <p className="text-[#8b93ad] text-[15px]">Manage and track your assigned students' counselling sessions</p>
+          </div>
+          <button type="button" onClick={onNavigateToStudents} className={`${gradientBtn} self-start h-[44px] px-5 text-[14px] shadow-[0_10px_24px_rgba(20,184,166,0.3)]`}>
+            <Users className="size-[17px]" />
+            View All Students
+          </button>
         </div>
 
-        {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Total Assigned Students */}
-          <Card className="bg-white rounded-[20px] border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)]">
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-10 h-10 bg-[rgba(26,77,143,0.1)] rounded-[10px] flex items-center justify-center">
-                  <Users className="w-5 h-5 text-[#1A4D8F]" />
+        {/* KPI cards + completion ring */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_1.15fr] gap-4">
+          {kpis.map((k) => {
+            const Icon = k.icon;
+            return (
+              <div key={k.label} className={`${card} p-5`}>
+                <div className="flex items-center gap-3">
+                  <span className={`size-[40px] rounded-[12px] grid place-items-center shrink-0 ${k.iconBg}`}><Icon className="size-[20px] text-white" /></span>
+                  <span className="text-[#aab1c8] text-[14px] font-medium">{k.label}</span>
                 </div>
+                <p className="text-white font-bold text-[34px] leading-[1.15] mt-4">{k.value}</p>
+                <p className={`flex items-center gap-1.5 text-[12.5px] mt-1 ${k.noteClass}`}><TrendingUp className="size-[14px]" />{k.note}</p>
               </div>
-              <div>
-                <p className="font-['Fraunces:Bold',sans-serif] font-bold text-[#1a4d8f] text-[36px] leading-[1.2] mb-1" style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}>
-                  24
-                </p>
-                <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b6b6b] text-[13px]">
-                  Total Assigned Students
-                </p>
-              </div>
+            );
+          })}
+          <div
+            className="rounded-[20px] p-5 flex items-center gap-5 border border-[#c4b5fd]/25"
+            style={{ background: "linear-gradient(140deg, #4338ca, #7c3aed)", boxShadow: "0 18px 40px rgba(124,58,237,0.25)" }}
+          >
+            <svg viewBox="0 0 100 100" className="size-[86px] -rotate-90 shrink-0">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="10" />
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#c4b5fd" strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(completionRate / 100) * 251.3} 251.3`} />
+            </svg>
+            <div className="text-white">
+              <p className="font-bold text-[30px] leading-none">{completionRate}%</p>
+              <p className="text-[13.5px] mt-1.5" style={{ color: "#e0e7ff" }}>Counselling completed</p>
+              <p className="text-[12px] mt-1" style={{ color: "rgba(224,231,255,0.85)" }}>{stats.completed} of {stats.total} students</p>
             </div>
-          </Card>
-
-          {/* Pending Counselling */}
-          <Card className="bg-white rounded-[20px] border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)]">
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-10 h-10 bg-[rgba(168,86,19,0.1)] rounded-[10px] flex items-center justify-center">
-                  <ClipboardList className="w-5 h-5 text-[#A85613]" />
-                </div>
-              </div>
-              <div>
-                <p className="font-['Fraunces:Bold',sans-serif] font-bold text-[#a85613] text-[36px] leading-[1.2] mb-1" style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}>
-                  8
-                </p>
-                <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b6b6b] text-[13px]">
-                  Pending Counselling
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* Completed Counselling */}
-          <Card className="bg-white rounded-[20px] border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)]">
-            <div className="p-5">
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-10 h-10 bg-[rgba(37,193,150,0.1)] rounded-[10px] flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-[#25c196]" />
-                </div>
-              </div>
-              <div>
-                <p className="font-['Fraunces:Bold',sans-serif] font-bold text-[#25c196] text-[36px] leading-[1.2] mb-1" style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}>
-                  16
-                </p>
-                <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b6b6b] text-[13px]">
-                  Completed Counselling
-                </p>
-              </div>
-            </div>
-          </Card>
+          </div>
         </div>
 
-        {/* Scheduled Tasks */}
-        <div className="w-full">
-          {/* Scheduled Tasks Card */}
-          <Card className="bg-white rounded-[20px] border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)]">
-            <div className="p-6">
-              <h2 className="font-['Fraunces:Bold',sans-serif] font-bold text-[#a85613] text-[20px] leading-[30px] mb-6" style={{ fontVariationSettings: "'SOFT' 0, 'WONK' 1" }}>
-                Scheduled Tasks
-              </h2>
+        <div className="grid grid-cols-1 xl:grid-cols-[1.75fr_1fr] gap-5 items-start">
+          {/* Scheduled Tasks */}
+          <div className={`${card} p-5 sm:p-6`}>
+            <div className="flex items-center justify-between mb-4 gap-3">
+              <h2 className="text-white font-semibold text-[18px]">Scheduled Tasks</h2>
+              <button type="button" onClick={onNavigateToStudents} className="inline-flex items-center gap-1.5 text-[#2dd4bf] hover:text-[#5eead4] text-[13.5px] font-semibold">
+                View All Students <ArrowRight className="size-[15px]" />
+              </button>
+            </div>
 
-              <div className="space-y-4">
-                {/* Counselling Session 1 */}
-                <Card className="bg-white rounded-[16px] border border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)] hover:shadow-[0px_6px_40px_0px_rgba(54,88,136,0.15)] transition-all duration-300 overflow-hidden">
-                  <div className="bg-gradient-to-r from-[#f8fafc] to-[#f1f5f9] px-4 sm:px-6 py-4 border-b border-[#e2e8f2]">
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
-                      <div className="flex-1 min-w-0">
-                        <button
-                          onClick={() => onNavigateToStudentProfile?.("STU-2024-001")}
-                          className="font-['Wix_Madefor_Text:Bold',sans-serif] text-[#1a4d8f] text-[18px] leading-[26px] hover:text-[#153d73] transition-colors text-left mb-2 block"
-                        >
-                          Priya Sharma
-                        </button>
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-[#6b7280]" />
-                            <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b7280] text-[13px]">
-                              STU-2024-001
-                            </p>
-                          </div>
-                          <span className="text-[#cbd5e1]">|</span>
-                          <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#6b7280] text-[13px]">
-                            App ID: APP-2024-001
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4 sm:p-5">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      {/* Left Column - Task Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <Badge className="bg-[#dbeafe] text-[#1e40af] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Counselling
-                          </Badge>
-                          <Badge className="bg-[#fef3c7] text-[#92400e] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Pending
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#969696]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            Nov 12, 2025 at 3:00 PM
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* Right Column - Contact Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-[#1a4d8f]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            priya.sharma@email.com
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="w-4 h-4 text-[#a85613]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            +91 9876543210
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Action Link */}
-                    <div className="mt-4 pt-3 border-t border-[#e2e8f2] flex items-center gap-4 flex-wrap">
-                      <button
-                        onClick={() => onNavigateToStudentProfile?.("STU-2024-001")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline"
-                      >
-                        View Details
-                      </button>
-                      <span className="text-[#cbd5e1]">|</span>
-                      <button
-                        onClick={() => handleDownloadProfile("Priya Sharma", "STU-2024-001")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline flex items-center gap-1.5"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        Download Student Profile
-                      </button>
-                    </div>
-                  </div>
-                </Card>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {(["All", "Counselling", "Home Visit", "Document Verification"] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setTaskFilter(f)}
+                  className={`px-3.5 py-1.5 rounded-full text-[13px] border transition-colors ${
+                    taskFilter === f ? "bg-[#14b8a6] border-[#14b8a6] text-white" : "border-[#232c48] text-[#aab1c8] hover:border-[#2f3a5e] hover:text-white"
+                  }`}
+                >
+                  {f === "All" ? `All (${tasks.length})` : f}
+                </button>
+              ))}
+            </div>
 
-                {/* Counselling Session 2 */}
-                <Card className="bg-white rounded-[16px] border border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)] hover:shadow-[0px_6px_40px_0px_rgba(54,88,136,0.15)] transition-all duration-300 overflow-hidden">
-                  <div className="bg-gradient-to-r from-[#f8fafc] to-[#f1f5f9] px-4 sm:px-6 py-4 border-b border-[#e2e8f2]">
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
-                      <div className="flex-1 min-w-0">
-                        <button
-                          onClick={() => onNavigateToStudentProfile?.("STU-2024-002")}
-                          className="font-['Wix_Madefor_Text:Bold',sans-serif] text-[#1a4d8f] text-[18px] leading-[26px] hover:text-[#153d73] transition-colors text-left mb-2 block"
-                        >
-                          Rahul Kumar
-                        </button>
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-[#6b7280]" />
-                            <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b7280] text-[13px]">
-                              STU-2024-002
-                            </p>
-                          </div>
-                          <span className="text-[#cbd5e1]">|</span>
-                          <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#6b7280] text-[13px]">
-                            App ID: APP-2024-002
-                          </p>
-                        </div>
-                      </div>
+            <div className="flex flex-col gap-3">
+              {filteredTasks.map((t) => {
+                const TypeIcon = typeStyle[t.type].icon;
+                const isNext = t.studentId === nextTask.studentId;
+                return (
+                  <div
+                    key={t.studentId}
+                    className={`grid grid-cols-[64px_1fr] md:grid-cols-[72px_1fr_auto] gap-4 items-center p-4 rounded-[16px] border ${
+                      isNext ? "border-[#14b8a6]/60 bg-gradient-to-r from-[#14b8a6]/10 to-[#151c33]" : "border-[#1f2742] bg-[#151c33]"
+                    }`}
+                  >
+                    <div className="text-center rounded-[14px] bg-[#0f1529] border border-[#232c48] py-2">
+                      <p className="text-[11.5px] font-semibold text-[#8b93ad] tracking-[0.06em]">{t.month}</p>
+                      <p className="text-[26px] font-bold text-white leading-[1.15]">{t.day}</p>
+                      <p className="text-[11.5px] font-semibold text-[#8b93ad]">{t.weekday}</p>
                     </div>
-                  </div>
-                  <div className="p-4 sm:p-5">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      {/* Left Column - Task Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <Badge className="bg-[#f3e8ff] text-[#6b21a8] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Home Visit
-                          </Badge>
-                          <Badge className="bg-[#fef3c7] text-[#92400e] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Pending
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#969696]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            Nov 13, 2025 at 10:00 AM
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* Right Column - Contact Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-[#1a4d8f]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            rahul.kumar@email.com
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="w-4 h-4 text-[#a85613]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            +91 9876543211
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Action Link */}
-                    <div className="mt-4 pt-3 border-t border-[#e2e8f2] flex items-center gap-4 flex-wrap">
-                      <button
-                        onClick={() => onNavigateToStudentProfile?.("STU-2024-002")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline"
-                      >
-                        View Details
-                      </button>
-                      <span className="text-[#cbd5e1]">|</span>
-                      <button
-                        onClick={() => handleDownloadProfile("Rahul Kumar", "STU-2024-002")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline flex items-center gap-1.5"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        Download Student Profile
-                      </button>
-                    </div>
-                  </div>
-                </Card>
 
-                {/* Counselling Session 3 */}
-                <Card className="bg-white rounded-[16px] border border-[#e2e8f2] shadow-[0px_3px_30px_0px_rgba(54,88,136,0.07)] hover:shadow-[0px_6px_40px_0px_rgba(54,88,136,0.15)] transition-all duration-300 overflow-hidden">
-                  <div className="bg-gradient-to-r from-[#f8fafc] to-[#f1f5f9] px-4 sm:px-6 py-4 border-b border-[#e2e8f2]">
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
-                      <div className="flex-1 min-w-0">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-3">
+                        <span className="size-[38px] rounded-full grid place-items-center text-[13px] font-bold text-[#0b1020] bg-[#f59e0b] shrink-0">{initials(t.name)}</span>
+                        <div className="min-w-0">
+                          <button type="button" onClick={() => onNavigateToStudentProfile?.(t.studentId)} className="block text-white text-[15.5px] font-semibold hover:text-[#5eead4] text-left">
+                            {t.name}
+                          </button>
+                          <span className="text-[12.5px] text-[#8b93ad]">{t.studentId} · App ID {t.appId}</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2.5 text-[12.5px] text-[#aab1c8]">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold ${typeStyle[t.type].className}`}><TypeIcon className="size-[13px]" />{t.type}</span>
+                        <span className="inline-flex items-center gap-1.5"><Clock className="size-[14px]" />{t.time}</span>
+                        <span className="inline-flex items-center gap-1.5"><Mail className="size-[14px]" />{t.email}</span>
+                        <span className="inline-flex items-center gap-1.5"><Phone className="size-[14px]" />{t.phone}</span>
+                      </div>
+                    </div>
+
+                    <div className="col-span-2 md:col-span-1 flex md:flex-col items-center md:items-end justify-between gap-3">
+                      <span className={`text-[12px] font-semibold px-3 py-1 rounded-full ${t.status === "Pending" ? "bg-[#f59e0b]/15 text-[#fbbf24]" : "bg-[#0ea5e9]/15 text-[#7dd3fc]"}`}>{t.status}</span>
+                      <div className="flex gap-2">
+                        {t.type === "Counselling" ? (
+                          <button type="button" onClick={() => handleStartCounselling(t.studentId, t.name)} className={`${gradientBtn} h-[38px] px-3.5 text-[13px]`}>
+                            <Play className="size-[14px]" /> Start Counselling
+                          </button>
+                        ) : (
+                          <button type="button" onClick={() => onNavigateToStudentProfile?.(t.studentId)} className="inline-flex items-center gap-2 h-[38px] px-3.5 rounded-[10px] bg-[#1b2440] hover:bg-[#232e52] text-white text-[13px] font-semibold transition-colors">
+                            <Eye className="size-[15px]" /> View Details
+                          </button>
+                        )}
                         <button
-                          onClick={() => onNavigateToStudentProfile?.("STU-2024-004")}
-                          className="font-['Wix_Madefor_Text:Bold',sans-serif] text-[#1a4d8f] text-[18px] leading-[26px] hover:text-[#153d73] transition-colors text-left mb-2 block"
+                          type="button"
+                          title="Download Student Profile"
+                          aria-label={`Download profile for ${t.name}`}
+                          onClick={() => handleDownloadProfile(t.name, t.studentId)}
+                          className="size-[38px] rounded-[10px] bg-[#1b2440] hover:bg-[#232e52] grid place-items-center text-[#c4c9dc] transition-colors"
                         >
-                          Amit Singh
+                          <Download className="size-[16px]" />
                         </button>
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-[#6b7280]" />
-                            <p className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#6b7280] text-[13px]">
-                              STU-2024-004
-                            </p>
-                          </div>
-                          <span className="text-[#cbd5e1]">|</span>
-                          <p className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#6b7280] text-[13px]">
-                            App ID: APP-2024-004
-                          </p>
-                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="p-4 sm:p-5">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      {/* Left Column - Task Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <Badge className="bg-[#fce7f3] text-[#9f1239] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Document Verification
-                          </Badge>
-                          <Badge className="bg-[#fef3c7] text-[#92400e] border-0 font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[11px] px-3 py-1.5 rounded-[6px]">
-                            Pending
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#969696]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            Nov 15, 2025 at 2:30 PM
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* Right Column - Contact Details */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-[#1a4d8f]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            amit.singh@email.com
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="w-4 h-4 text-[#a85613]" />
-                          <span className="font-['Wix_Madefor_Text:Regular',sans-serif] text-[#4d4b48] text-[13px]">
-                            +91 9876543213
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Action Link */}
-                    <div className="mt-4 pt-3 border-t border-[#e2e8f2] flex items-center gap-4 flex-wrap">
-                      <button
-                        onClick={() => onNavigateToStudentProfile?.("STU-2024-004")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline"
-                      >
-                        View Details
-                      </button>
-                      <span className="text-[#cbd5e1]">|</span>
-                      <button
-                        onClick={() => handleDownloadProfile("Amit Singh", "STU-2024-004")}
-                        className="font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[#1a4d8f] text-[13px] hover:underline flex items-center gap-1.5"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        Download Student Profile
-                      </button>
-                    </div>
-                  </div>
-                </Card>
+                );
+              })}
+              {filteredTasks.length === 0 && (
+                <p className="text-center text-[#8b93ad] text-[14px] py-8">No {taskFilter.toLowerCase()} tasks scheduled.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Right column */}
+          <div className="flex flex-col gap-5">
+            <div
+              className="rounded-[20px] p-6 text-white border border-[#c4b5fd]/25"
+              style={{ background: "linear-gradient(140deg, #312e81, #5b21b6)", boxShadow: "0 18px 40px rgba(91,33,182,0.25)" }}
+            >
+              <p className="text-[12px] font-bold tracking-[0.12em]" style={{ color: "#c4b5fd" }}>NEXT UP</p>
+              <h3 className="text-[20px] font-bold mt-2">{nextTask.type} · {nextTask.name}</h3>
+              <p className="text-[14px] mt-1" style={{ color: "#e0e7ff" }}>{nextTask.studentId} · App ID {nextTask.appId}</p>
+              <div className="flex flex-col gap-1.5 mt-4 mb-5 text-[13.5px]" style={{ color: "#e0e7ff" }}>
+                <span className="inline-flex items-center gap-2"><Clock className="size-[15px]" />{nextTask.fullDate} at {nextTask.time}</span>
+                <span className="inline-flex items-center gap-2"><Phone className="size-[15px]" />{nextTask.phone}</span>
               </div>
-
-              <Button
-                onClick={onNavigateToStudents}
-                variant="outline"
-                className="w-full mt-4 h-[44px] rounded-[100px] border-[#e2e8f2] font-['Wix_Madefor_Text:SemiBold',sans-serif] text-[14px] hover:bg-[#f6f8fc]"
+              <button
+                type="button"
+                onClick={() => handleStartCounselling(nextTask.studentId, nextTask.name)}
+                className="inline-flex items-center gap-2 h-[40px] px-4 rounded-[10px] text-[13.5px] font-semibold hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: "#ffffff", color: "#312e81" }}
               >
-                View All Students
-              </Button>
+                <Play className="size-[14px]" /> Start Counselling
+              </button>
             </div>
-          </Card>
-        </div>
 
-        {/* Resource Centre */}
-        <div className="w-full mt-8">
-          <ResourceCentre />
+            <div className={`${card} p-6`}>
+              <h2 className="text-white font-semibold text-[18px] mb-4">Resource Centre</h2>
+              <div className="flex flex-col gap-2.5">
+                {resources.map((r) => {
+                  const Icon = r.icon;
+                  return (
+                    <a key={r.title} href="#" onClick={(e) => e.preventDefault()} className="flex items-center gap-3 p-3 rounded-[14px] bg-[#182039] hover:bg-[#1e284a] transition-colors">
+                      <span className="size-[38px] rounded-[10px] grid place-items-center shrink-0 bg-[#14b8a6]/15 text-[#2dd4bf]"><Icon className="size-[18px]" /></span>
+                      <span>
+                        <span className="block text-white text-[14px] font-semibold">{r.title}</span>
+                        <span className="block text-[#8b93ad] text-[12.5px]">{r.description}</span>
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <CounsellingFormDialog
         isOpen={isCounsellingFormOpen}
         onClose={() => setIsCounsellingFormOpen(false)}
